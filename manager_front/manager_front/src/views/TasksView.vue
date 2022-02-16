@@ -4,38 +4,41 @@
     <RouterLink to="create-task" class="button is-success mt-5">
         Add New
     </RouterLink>
-    <table class="table is-striped is-bordered mt-2 is-fullwidth">
-      <thead>
-        <tr>
-          <th>Tarefa</th>
-          <th>Descricao</th>
-          <th>Time</th>
-          <th>Projeto</th>
-          <th class="has-text-centered">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in items" :key="item.product_id">
-          <td>{{ item.tarefa }}</td>
-          <td>{{ item.descricao }}</td>
-          <td>{{ item.minutos }}</td>
-          <td>{{ item.projeto }}</td>
-          <td class="has-text-centered">
-            <router-link
-              :to="{ name: 'Edit', params: { id: item.id } }"
-              class="button is-info is-small mr-2"
-              >Edit</router-link
-            >
-            <a
-              class="button is-danger is-small"
-              @click="deleteTasks(item.id)"
-            >
-              Delete
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div ref="printcontent">
+      <table class="table is-striped is-bordered mt-2 is-fullwidth">
+        <thead>
+          <tr>
+            <th>Tarefa</th>
+            <th>Descricao</th>
+            <th>Time</th>
+            <th>Projeto</th>
+            <th class="has-text-centered">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in items" :key="item.product_id">
+            <td>{{ item.tarefa }}</td>
+            <td>{{ item.descricao }}</td>
+            <td>{{ item.minutos }}</td>
+            <td>{{ item.projeto }}</td>
+            <td class="has-text-centered">
+              <RouterLink
+                :to="{ name: 'Edit', params: { id: item.id } }"
+                class="button is-info is-small mr-2"
+                >Edit</RouterLink
+              >
+              <a
+                class="button is-danger is-small"
+                @click="deleteTasks(item.id)"
+              >
+                Delete
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="button is-info is-light mt-2" @click.="printThis">Tirar print</a>
   </div>
 </template>
   
@@ -47,6 +50,7 @@ export default {
   data() {
     return {
       items: [],
+      output: null
     };
   },
   
@@ -74,8 +78,30 @@ export default {
         console.log(err);
       }
     },
+    async printThis() {
+      console.log("printing..");
+      const el = this.$refs.printcontent;
+
+      const options = {
+        type: "dataURL",
+      };
+      const printCanvas = await html2canvas(el, options);
+
+      const link = document.createElement("a");
+      link.setAttribute("download", "download.png");
+      link.setAttribute(
+        "href",
+        printCanvas
+          .toDataURL("image/png")
+          .replace("image/png", "image/octet-stream")
+      );
+      link.click();
+
+      console.log("done");
+    },
   },
 };
+
 </script>
   
 <style>
