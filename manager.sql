@@ -14,11 +14,10 @@ CREATE TABLE `tasks` (
   `descricao` text NOT NULL,
   `minutos` int NOT NULL,
   `projeto` varchar(70) DEFAULT NULL,
+  `date` date NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `tasks` (`id`, `tarefa`, `descricao`, `minutos`, `projeto`) VALUES
-(26,	'daq',	'dsa',	1,	'Fa colchoes');
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -32,4 +31,4 @@ INSERT INTO `users` (`id`, `username`, `password`) VALUES
 (1,	'lipe',	'admin'),
 (2,	'Jimi Hendrix',	'123');
 
--- 2022-02-16 18:33:42
+-- 2022-02-17 19:30:58
