@@ -38,6 +38,17 @@
     </div>
 
     <div class="field">
+      <label class="label">Data</label>
+      <div class="control">
+        <input
+          class="input"
+          type="date"
+          v-model="taskDate"
+        />
+      </div>
+    </div>
+
+    <div class="field">
       <label class="label">Projeto</label>
       <div class="control">
         <div class="select">
@@ -70,8 +81,12 @@ export default {
       taskName: "",
       taskDescription: "",
       taskTime: "",
+      taskDate: new Date().toISOString().slice(0, 10),
       taskProject: ""
     };
+  },
+  created(){
+    console.log(this.taskDate)
   },
   methods: {
     // Create New task
@@ -81,11 +96,13 @@ export default {
           tarefa: this.taskName,
           descricao: this.taskDescription,
           minutos: this.taskTime,
+          date: this.taskDate,
           projeto: this.taskProject
         });
         this.taskName = "";
         this.taskDescription = "";
         this.taskTime = "";
+        this.taskDate = "";
         this.taskProject = "";
         this.$router.push("/tasks");
       } catch (err) {

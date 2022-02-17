@@ -10,9 +10,10 @@
           <tr>
             <th>Tarefa</th>
             <th>Descricao</th>
-            <th>Time</th>
+            <th>Minutos</th>
+            <th>Data</th>
             <th>Projeto</th>
-            <th class="has-text-centered">Actions</th>
+            <th class="has-text-centered" v-show="isVisible">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -20,8 +21,9 @@
             <td>{{ item.tarefa }}</td>
             <td>{{ item.descricao }}</td>
             <td>{{ item.minutos }}</td>
+            <td>{{ item.date.slice(0, 10) }}</td>
             <td>{{ item.projeto }}</td>
-            <td class="has-text-centered">
+            <td class="has-text-centered" v-show="isVisible">
               <RouterLink
                 :to="{ name: 'Edit', params: { id: item.id } }"
                 class="button is-info is-small mr-2"
@@ -38,7 +40,7 @@
         </tbody>
       </table>
     </div>
-    <a class="button is-info is-light mt-2" @click.="printThis">Tirar print</a>
+    <a class="button is-info is-light mt-2" @click="printThis" @mouseenter="toggleVisibility" @mouseleave="toggleVisibility">Tirar print</a>
   </div>
 </template>
   
@@ -50,7 +52,8 @@ export default {
   data() {
     return {
       items: [],
-      output: null
+      output: null,
+      isVisible: true
     };
   },
   
@@ -99,6 +102,13 @@ export default {
 
       console.log("done");
     },
+    toggleVisibility(){
+      if (this.isVisible) {  
+       this.isVisible = false;
+      }else{
+        this.isVisible = true;
+      }
+    }
   },
 };
 

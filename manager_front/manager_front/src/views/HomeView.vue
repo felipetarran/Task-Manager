@@ -11,7 +11,7 @@
 <style scoped>
   .wrapper{
     margin-top: 200px;
-    margin-bottom: 200px;
+    margin-bottom: 150px;
   }
   .btn-wrapper{
     width: 100%;
