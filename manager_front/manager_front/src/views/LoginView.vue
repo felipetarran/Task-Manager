@@ -3,7 +3,7 @@
     <h1 class="title is-1 has-text-centered">Entre em sua conta!</h1>
     <div class="field">
       <p class="control has-icons-left has-icons-right">
-        <input class="input" type="text" placeholder="Nome">
+        <input class="input" type="text" placeholder="Nome" v-model="name">
         <span class="icon is-small is-left">
           <i class="fas fa-user"></i>
         </span>
@@ -14,7 +14,7 @@
     </div>
     <div class="field">
       <p class="control has-icons-left">
-        <input class="input" type="password" placeholder="Password">
+        <input class="input" type="password" placeholder="Password" v-model="password">
         <span class="icon is-small is-left">
           <i class="fas fa-lock"></i>
         </span>
@@ -22,13 +22,46 @@
     </div>
     <div class="field">
       <p class="control">
-        <button class="button is-success">
+        <button class="button is-success" @click="authUser">
           Login
         </button>
       </p>
     </div>
 </div>
 </template>
+
+<script>
+
+export default{
+  data(){
+    return{
+      name: "",
+      password: ""
+    }
+  },
+  methods:{
+    async authUser(){
+      if(this.userName != "" && this.userPassword != ""){
+        try{
+          await axios.post("localhost:5001/login",{
+            username: this.name,
+            password: this.password
+          });
+          this.userName = "";
+          this.password = "";
+          this.$router.push("/tasks")
+        }catch(err){
+          console.log(err)
+        }
+      }else{
+        window.alert("Digite um nome e senha válidos")
+      }
+    }
+  }
+}
+
+</script>
+
 
 <style scoped>
     .container{

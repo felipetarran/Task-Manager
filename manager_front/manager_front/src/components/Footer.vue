@@ -10,8 +10,6 @@
 
 <style scoped>
     footer{
-        position:absolute;
-        bottom:0;
         width:100%;
         height: 60px;
         padding: 20px 10px 10px 10px;
