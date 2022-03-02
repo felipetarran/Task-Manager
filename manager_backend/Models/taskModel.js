@@ -38,7 +38,7 @@ export const insertTask = (data, result) => {
 
 // Update Task to Database
 export const updateTaskById = (data, id, result) => {
-    db.query("UPDATE tasks SET tarefa = ?, descricao = ?, minutos = ? WHERE id = ?", [data.tarefa, data.descricao,data.minutos, data.projeto, id], (err, results) => {             
+    db.query("UPDATE tasks SET tarefa = ?, descricao = ?, minutos = ? WHERE id = ?", [data.tarefa, data.descricao,data.minutos, id], (err, results) => {             
         if(err) {
             console.log(err);
             result(err, null);

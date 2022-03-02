@@ -65,6 +65,13 @@
 
 <style scoped>
     .container{
-        margin-top: 160px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.075);
+        padding: 50px;
+        width: 700px;
+        border-radius: 10px;
     }
 </style>

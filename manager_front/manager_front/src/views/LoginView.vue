@@ -22,7 +22,7 @@
     </div>
     <div class="field">
       <p class="control">
-        <button class="button is-success" @click="authUser">
+        <button class="button is-success" @click="loginUser">
           Login
         </button>
       </p>
@@ -31,30 +31,39 @@
 </template>
 
 <script>
+import axios from 'axios'
+import router from '../router'
+import { mapState } from 'pinia'
+import { useToken } from '../store.js'
 
 export default{
-  data(){
+  setup(){
     return{
       name: "",
-      password: ""
+      password: "",
+      token: ""
     }
   },
   methods:{
-    async authUser(){
-      if(this.userName != "" && this.userPassword != ""){
-        try{
-          await axios.post("localhost:5001/login",{
-            username: this.name,
-            password: this.password
-          });
-          this.userName = "";
-          this.password = "";
-          this.$router.push("/tasks")
-        }catch(err){
-          console.log(err)
-        }
-      }else{
-        window.alert("Digite um nome e senha válidos")
+   loginUser(){
+      try{
+        axios.post("http://localhost:5001/api/login",{
+          username: this.name,
+          password: this.password
+        })
+          .then((response)=>{
+            this.token = response.data.token
+            this.userName = "";
+            this.password = "";
+            console.log(this.token)
+            let myToken = useToken();
+            myToken.$patch({
+              myToken: this.token
+            })
+            router.push('/tasks')
+          })
+      }catch(err){
+        console.log(err)
       }
     }
   }
@@ -65,6 +74,13 @@ export default{
 
 <style scoped>
     .container{
-        margin-top: 160px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.075);
+        padding: 50px;
+        width: 700px;
+        border-radius: 10px;
     }
 </style>

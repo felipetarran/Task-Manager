@@ -1,7 +1,19 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
+import axios from 'axios'
+import router from '../router'
+import { useToken } from '../store.js'
 export default {
-
+  methods:{
+    async logout(){
+      await axios.post('http://localhost:5001/api/logout')
+      router.push('/login')
+      let token = useToken();
+      token.$patch({
+        myToken: ''
+      })
+    }
+  }
 }
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -91,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
             Login
             </a>
            </RouterLink>
+           <a class="button is-danger" @click="logout">Logout</a>
         </div>
       </div>
     </div>

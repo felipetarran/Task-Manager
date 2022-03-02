@@ -45,7 +45,9 @@
 </template>
   
 <script>
- import axios from "axios";
+import axios from "axios";
+import router from "../router";
+import { useToken } from '../store.js'
   
 export default {
   name: "TasksView",
@@ -58,7 +60,8 @@ export default {
   },
   
   created() {
-    this.getTasks();
+    this.authUser()
+    this.getTasks()
   },
   
   methods: {
@@ -107,6 +110,19 @@ export default {
        this.isVisible = false;
       }else{
         this.isVisible = true;
+      }
+    },
+    async authUser(){
+      try{
+        let token = useToken();
+        let myToken = token.myToken
+        let auth = await axios.get('http://localhost:5001/api/auth',{
+          headers: {
+            'x-access-token': myToken
+          }
+        })
+      }catch(err){
+        router.push('/login')
       }
     }
   },
