@@ -3,7 +3,13 @@ import { RouterLink, RouterView } from 'vue-router'
 import axios from 'axios'
 import router from '../router'
 import { useToken } from '../store.js'
+import { onMounted } from 'vue'
 export default {
+  setup(){
+    return{
+      session: useToken()
+    }
+  },
   methods:{
     async logout(){
       await axios.post('http://localhost:5001/api/logout')
@@ -12,7 +18,7 @@ export default {
       token.$patch({
         myToken: ''
       })
-    }
+    },
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
@@ -93,17 +99,17 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <RouterLink :to="{name: 'Register'}">
+          <RouterLink :to="{name: 'Register'}" v-if="session.myToken == ''">
             <a class="button is-primary mr-2">
               Sign up
             </a>
           </RouterLink>
-          <RouterLink :to="{name: 'Login'}">
+          <RouterLink :to="{name: 'Login'}" v-if="session.myToken == ''">
             <a class="button is-light">
             Login
             </a>
            </RouterLink>
-           <a class="button is-danger" @click="logout">Logout</a>
+           <a class="button is-danger" @click="logout" v-if="session.myToken != ''">Logout</a>
         </div>
       </div>
     </div>
